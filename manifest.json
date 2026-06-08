@@ -12,17 +12,6 @@
       "filename": "providers/peliserieshoy.js",
       "enabled": true,
       "contentLanguage": ["es"]
-    },
-    {
-      "id": "lamovie",
-      "name": "LaMovie",
-      "description": "Streams en Latino desde LaMovie.",
-      "version": "1.3.0",
-      "author": "-",
-      "supportedTypes": ["movie", "tv"],
-      "filename": "providers/lamovie.js",
-      "enabled": true,
-      "contentLanguage": ["es"]
     }
   ]
 }
