@@ -57,15 +57,15 @@ function W(t, e, r, p) {
             let s = yield fetch(`${c}/s.php`, { method: "POST", headers: y(S({}, a), { Referer: l }), body: new URLSearchParams({ a: "2", v: m, tok: v }).toString() }).then((i) => i.json());
             if (s.u && s.sig) {
               let i = `${c}/p.php?url=${encodeURIComponent(s.u)}&sig=${encodeURIComponent(s.sig)}`, h = o.replace(/[^a-zA-Z0-9 ]/g, "").trim() || s.src || "Server";
-              return { name: "Solo Latino", title: `1090p \xB7 ${f} \xB7 ${h}`, url: i, quality: "1080p", headers: { Referer: c } };
+              return { name: "Solo Latino", title: `1080p \xB7 ${f} \xB7 ${h}`, url: i, quality: "1080p", headers: { Referer: c } };
             }
             if (s.u && !s.sig) {
               let i = s.u.startsWith("http") ? s.u : `${c}${s.u}`, h = o.replace(/[^a-zA-Z0-9 ]/g, "").trim() || "Player";
-              return { name: "Solo Latino", title: `1090p \xB7 ${f} \xB7 ${h}`, url: i, quality: "1080p", headers: { Referer: c } };
+              return { name: "Solo Latino", title: `1080p \xB7 ${f} \xB7 ${h}`, url: i, quality: "1080p", headers: { Referer: c } };
             }
             if (s.type === "mp4" && s.u) {
               let i = o.replace(/[^a-zA-Z0-9 ]/g, "").trim() || "Directo";
-              return { name: "Solo Latino", title: `1090p \xB7 ${f} \xB7 ${i}`, url: s.u, quality: "1080p", headers: { Referer: c } };
+              return { name: "Solo Latino", title: `720p \xB7 ${f} \xB7 ${i}`, url: s.u, quality: "1080p", headers: { Referer: c } };
             }
           } catch (s) {
             console.log(`[PelisSeriesHoy] Error en resolver ${o}: ${s.message}`);
