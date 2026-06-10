@@ -37,7 +37,7 @@ var P = (t, e, r) => new Promise((p, n) => {
 var j = {};
 b(j, { getStreams: () => W });
 module.exports = I(j);
-var T = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", c = "https://player.pelisserieshoy.com", H = "439c478a771f35c05022f9feabcca01c", z = ["LAT", "ESP", "SUB"];
+var T = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", c = "https://player.pelisserieshoy.com", H = "439c478a771f35c05022f9feabcca01c", z = ["LAT"];
 function O(t, e) {
   return P(this, null, function* () {
     let r = e === "movie" ? `https://api.themoviedb.org/3/movie/${t}/external_ids?api_key=${H}` : `https://api.themoviedb.org/3/tv/${t}/external_ids?api_key=${H}`;
@@ -88,19 +88,30 @@ function W(t, e, r, p) {
       let w = yield fetch(`${c}/s.php`, { method: "POST", headers: y(S({}, a), { Referer: l }), body: new URLSearchParams({ a: "1", tok: v }).toString() }).then((o) => o.json());
       if (!w || !w.langs_s)
         return [];
-      let R = [];
-      for (let o of z) {
-        let m = w.langs_s[o];
-        if (!m || m.length === 0)
-          continue;
-        let f = o === "LAT" ? "Latino" : o === "ESP" ? "Espa\xF1ol" : "Subtitulado";
-        console.log(`[PelisSeriesHoy] Resolviendo ${m.length} servidores en ${f}...`);
-        let i = (yield Promise.all(m.map((h) => x2(h[0], h[1], f)))).filter((h) => h !== null);
-        if (i.length > 0) {
-          R.push(...i);
-          break;
-        }
-      }
+		let R = [];
+		let m = w.langs_s?.LAT;
+
+		if (m && m.length > 0) {
+		  console.log(`[PelisSeriesHoy] Resolviendo ${m.length} servidores en Latino...`);
+
+		 // Solo Player y Premium, excluyendo VIP
+		let servers = m.filter((h) =>
+		  /player|premium/i.test(h[0]) &&
+		  !/vip/i.test(h[0])
+		);
+
+		// Tomar solo los 2 primeros
+		servers = servers.slice(0, 2);
+
+		console.log(`[PelisSeriesHoy] Resolviendo ${servers.length} servidores...`);
+
+		let i = (yield Promise.all(
+		  servers.map((h) => x2(h[0], h[1], "Latino"))
+		)).filter((h) => h !== null);
+
+		if (i.length > 0)
+		  R.push(...i);
+		}
       let L = ((Date.now() - n) / 1e3).toFixed(2);
       return console.log(`[PelisSeriesHoy] \u2713 ${R.length} streams en ${L}s`), R;
     } catch (u) {
